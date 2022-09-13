@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  vars:
+     helm_chart: "https://github.com/grafana/helm-charts.git"
+     release_name: "grafana"
+
+  tasks:
+     - name: Create a k8s namespace
+       kubernetes.core.k8s:
+        name: monitoring
+        api_version: v1
+        kind: Namespace
+        state: present
+     - name: Create a directory if it does not exist
+       ansible.builtin.file:
+        path: /tmp/helm_repository
+        state: directory
+     - name: Git clone stable repo on HEAD
+       ansible.builtin.git:
+        repo: "{{helm_chart}}"
+        dest: /tmp/helm_repository
+     - name: Deploy Grafana chart from local path
+       kubernetes.core.helm:
+         name: "{{release_name}}"
+         chart_ref: /tmp/helm_repository/charts/grafana
+         release_namespace: monitoring
+         values: 
+          adminPassword: admin

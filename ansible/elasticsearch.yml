@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  vars:
+     helm_chart_url: "https://helm.elastic.co"
+     repo_name: "elastics"
+     release_name: "elastic"
+  tasks:
+     - name: Add elastic search repo
+       kubernetes.core.helm_repository:
+         name: "{{repo_name}}"
+         repo_url: "{{helm_chart_url}}"
+     - name: update repo
+       command: helm repo update 
+     - name: Deploy latest version of elastic search
+       kubernetes.core.helm:
+         name: "{{release_name}}"
+         chart_ref: '"{{repo_name}}"/elasticsearch'
+         release_namespace: monitoring
+         state: present
+         values:
+          replicas: 1

@@ -22,8 +22,7 @@
          name: "{{release_name}}"
          chart_ref: '"{{repo_name}}"/prometheus'
          release_namespace: prometheus
-         state: present
-         when: true 
+         state: present 
     - name: upgrade  helm chart
       command: 'helm upgrade {{release_name}} {{repo_name}}/prometheus -n prometheus'   
     
