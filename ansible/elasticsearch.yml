@@ -9,8 +9,8 @@
        kubernetes.core.helm_repository:
          name: "{{repo_name}}"
          repo_url: "{{helm_chart_url}}"
-     - name: update repo
-       command: helm repo update 
+   #  - name: update repo
+   #    command: helm repo update 
      - name: Deploy latest version of elastic search
        kubernetes.core.helm:
          name: "{{release_name}}"
