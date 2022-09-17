@@ -375,7 +375,7 @@ alertmanager:
     servicePort: 80
     # nodePort: 30000
     sessionAffinity: None
-    type: ClusterIP
+    type: NodePort
 
   ## List of initial peers
   ## Ref: https://github.com/prometheus/alertmanager/blob/main/README.md#high-availability
