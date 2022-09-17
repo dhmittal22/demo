@@ -155,7 +155,7 @@ podPortName: grafana
 ##
 service:
   enabled: true
-  type: ClusterIP
+  type: NodePort
   port: 80
   targetPort: 3000
     # targetPort: 4181 To be used with a proxy extraContainer
@@ -184,7 +184,7 @@ extraExposePorts: []
  # - name: keycloak
  #   port: 8080
  #   targetPort: 8080
- #   type: ClusterIP
+ #   type: NodePort
 
 # overrides pod.spec.hostAliases in the grafana deployment's pods
 hostAliases: []
