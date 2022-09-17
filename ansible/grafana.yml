@@ -22,7 +22,7 @@
      - name: Deploy Grafana chart from local path
        kubernetes.core.helm:
          name: "{{release_name}}"
-         chart_ref: /tmp/helm_repository/charts/grafana
+         chart_ref: /tmp/helm_repository/helm_charts/grafana
          release_namespace: monitoring
          values: 
           adminPassword: admin
