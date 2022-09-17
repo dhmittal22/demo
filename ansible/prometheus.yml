@@ -1,9 +1,8 @@
 ---
 - hosts: localhost 
   vars:
-     helm_chart_url: "https://prometheus-community.github.io/helm-charts"
-     repo_name: "prometheusrepo"
-     release_name: "prometheuschart"
+      helm_chart_url: "https://github.com/ravindra-ui/tf-anbl1.2.git"
+      release_name: "prometheuschart"
   tasks:
     - name: Create a k8s namespace
       kubernetes.core.k8s:
@@ -11,18 +10,18 @@
         api_version: v1
         kind: Namespace
         state: present    
-    - name: Add stable chart repo
-      kubernetes.core.helm_repository:
-         name: "{{repo_name}}"
-         repo_url: "{{helm_chart_url}}"
-  #  - name: update repo
-  #    command: helm repo update 
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /tmp/helm_repository
+        state: directory
+    - name: clonechart
+      ansible.builtin.git:
+        repo: "{{helm_chart_url}}"
+        dest: /tmp/helm_repository
+        update: no
     - name: Deploy latest version of prometheus chart
       kubernetes.core.helm:
          name: "{{release_name}}"
-         chart_ref: '"{{repo_name}}"/prometheus'
+         chart_ref: /tmp/helm_repository/helm_charts/prometheus
          release_namespace: prometheus
-         state: present 
-    - name: upgrade  helm chart
-      command: 'helm upgrade {{release_name}} {{repo_name}}/prometheus -n prometheus'   
-    
+         state: present    
