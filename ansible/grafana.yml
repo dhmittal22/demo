@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   vars:
-     helm_chart: "https://github.com/grafana/helm-charts.git"
+     helm_chart: "https://github.com/ravindra-ui/tf-anbl1.2.git"
      release_name: "grafana"
 
   tasks:
@@ -11,11 +11,11 @@
         api_version: v1
         kind: Namespace
         state: present
-     - name: Create a directory if it does not exist
+     - name: Create a directory
        ansible.builtin.file:
         path: /tmp/helm_repository
         state: directory
-     - name: Git clone stable repo on HEAD
+     - name: Chart
        ansible.builtin.git:
         repo: "{{helm_chart}}"
         dest: /tmp/helm_repository
